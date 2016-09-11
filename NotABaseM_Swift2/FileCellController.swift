@@ -9,7 +9,11 @@
 import UIKit
 
 class FileCellController: UITableViewCell {
-
+    
+    @IBOutlet var fileName: UILabel!
+    @IBOutlet var progress: UIProgressView!
+    @IBOutlet var status: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,5 +24,6 @@ class FileCellController: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
 
 }

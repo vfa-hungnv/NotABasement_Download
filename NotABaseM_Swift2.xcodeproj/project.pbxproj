@@ -12,6 +12,8 @@
 		0CAC98551D8447DC008704B8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CAC98531D8447DC008704B8 /* Main.storyboard */; };
 		0CAC98571D8447DC008704B8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CAC98561D8447DC008704B8 /* Assets.xcassets */; };
 		0CAC985A1D8447DC008704B8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CAC98581D8447DC008704B8 /* LaunchScreen.storyboard */; };
+		0CCAD45A1D850053005ED216 /* FileCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCAD4591D850053005ED216 /* FileCellController.swift */; };
+		1771CF3DE509BAB740B028A1 /* Pods_NotABaseM_Swift2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25191E529DF3B9E80771A8C3 /* Pods_NotABaseM_Swift2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,10 @@
 		0CAC98561D8447DC008704B8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0CAC98591D8447DC008704B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0CAC985B1D8447DC008704B8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0CCAD4591D850053005ED216 /* FileCellController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCellController.swift; sourceTree = "<group>"; };
+		17FBE57D519434FF1C7B355A /* Pods-NotABaseM_Swift2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotABaseM_Swift2.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NotABaseM_Swift2/Pods-NotABaseM_Swift2.debug.xcconfig"; sourceTree = "<group>"; };
+		25191E529DF3B9E80771A8C3 /* Pods_NotABaseM_Swift2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NotABaseM_Swift2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8CF9DF7F54C402086D9FA1EB /* Pods-NotABaseM_Swift2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NotABaseM_Swift2.release.xcconfig"; path = "Pods/Target Support Files/Pods-NotABaseM_Swift2/Pods-NotABaseM_Swift2.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1771CF3DE509BAB740B028A1 /* Pods_NotABaseM_Swift2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +47,8 @@
 			children = (
 				0CAC984E1D8447DC008704B8 /* NotABaseM_Swift2 */,
 				0CAC984D1D8447DC008704B8 /* Products */,
+				9D9D86BD4BB3817740E6BA4D /* Pods */,
+				CB2F840F9AEC674A1986474B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +63,48 @@
 		0CAC984E1D8447DC008704B8 /* NotABaseM_Swift2 */ = {
 			isa = PBXGroup;
 			children = (
+				0CCAD45B1D850060005ED216 /* Controller */,
+				0CCAD45C1D85007B005ED216 /* View */,
+			);
+			path = NotABaseM_Swift2;
+			sourceTree = "<group>";
+		};
+		0CCAD45B1D850060005ED216 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0CAC985B1D8447DC008704B8 /* Info.plist */,
 				0CAC984F1D8447DC008704B8 /* AppDelegate.swift */,
 				0CAC98511D8447DC008704B8 /* ViewController.swift */,
+				0CCAD4591D850053005ED216 /* FileCellController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		0CCAD45C1D85007B005ED216 /* View */ = {
+			isa = PBXGroup;
+			children = (
 				0CAC98531D8447DC008704B8 /* Main.storyboard */,
 				0CAC98561D8447DC008704B8 /* Assets.xcassets */,
 				0CAC98581D8447DC008704B8 /* LaunchScreen.storyboard */,
-				0CAC985B1D8447DC008704B8 /* Info.plist */,
 			);
-			path = NotABaseM_Swift2;
+			name = View;
+			sourceTree = "<group>";
+		};
+		9D9D86BD4BB3817740E6BA4D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				17FBE57D519434FF1C7B355A /* Pods-NotABaseM_Swift2.debug.xcconfig */,
+				8CF9DF7F54C402086D9FA1EB /* Pods-NotABaseM_Swift2.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		CB2F840F9AEC674A1986474B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				25191E529DF3B9E80771A8C3 /* Pods_NotABaseM_Swift2.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +114,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0CAC985E1D8447DC008704B8 /* Build configuration list for PBXNativeTarget "NotABaseM_Swift2" */;
 			buildPhases = (
+				879F8E36BE8144D71A045CAC /* [CP] Check Pods Manifest.lock */,
 				0CAC98481D8447DC008704B8 /* Sources */,
 				0CAC98491D8447DC008704B8 /* Frameworks */,
 				0CAC984A1D8447DC008704B8 /* Resources */,
+				284AA66AC7930FAEEC246984 /* [CP] Embed Pods Frameworks */,
+				6BE0C9BDBE64299121C282BD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -96,6 +142,7 @@
 				TargetAttributes = {
 					0CAC984B1D8447DC008704B8 = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = KHC379JQJ3;
 					};
 				};
 			};
@@ -130,12 +177,61 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		284AA66AC7930FAEEC246984 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NotABaseM_Swift2/Pods-NotABaseM_Swift2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6BE0C9BDBE64299121C282BD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NotABaseM_Swift2/Pods-NotABaseM_Swift2-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		879F8E36BE8144D71A045CAC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0CAC98481D8447DC008704B8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				0CAC98521D8447DC008704B8 /* ViewController.swift in Sources */,
+				0CCAD45A1D850053005ED216 /* FileCellController.swift in Sources */,
 				0CAC98501D8447DC008704B8 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -249,23 +345,31 @@
 		};
 		0CAC985F1D8447DC008704B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 17FBE57D519434FF1C7B355A /* Pods-NotABaseM_Swift2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = NotABaseM_Swift2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "don.NotABaseM-Swift2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
 		0CAC98601D8447DC008704B8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8CF9DF7F54C402086D9FA1EB /* Pods-NotABaseM_Swift2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = NotABaseM_Swift2/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "don.NotABaseM-Swift2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -288,6 +392,7 @@
 				0CAC98601D8447DC008704B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

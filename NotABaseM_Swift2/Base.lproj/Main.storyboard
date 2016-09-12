@@ -7,6 +7,49 @@
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
+        <!--Walkthrough Page View Controller-->
+        <scene sceneID="g4I-po-F3N">
+            <objects>
+                <pageViewController storyboardIdentifier="WalkthroughController" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="iNM-6U-JOz" customClass="WalkthroughPageViewController" customModule="NotABaseM_Swift2" customModuleProvider="target" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="01X-6P-ksp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="914" y="-382"/>
+        </scene>
+        <!--Walkthrough Content View Controller-->
+        <scene sceneID="Kw2-Ho-a89">
+            <objects>
+                <viewController storyboardIdentifier="WalkthroughContentViewController" id="Z8j-7N-4d8" customClass="WalkthroughContentViewController" customModule="NotABaseM_Swift2" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5Nc-wx-9qe"/>
+                        <viewControllerLayoutGuide type="bottom" id="Kum-1C-CUQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ru8-iN-K6f">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n0V-0y-Yna">
+                                <rect key="frame" x="-4" y="20" width="328" height="548"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="n0V-0y-Yna" firstAttribute="top" secondItem="5Nc-wx-9qe" secondAttribute="bottom" id="PXX-Q8-AlL"/>
+                            <constraint firstItem="Kum-1C-CUQ" firstAttribute="top" secondItem="n0V-0y-Yna" secondAttribute="bottom" id="ohG-T5-CRh"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="n0V-0y-Yna" secondAttribute="trailing" constant="-20" id="rg3-Oe-CG5"/>
+                            <constraint firstItem="n0V-0y-Yna" firstAttribute="leading" secondItem="Ru8-iN-K6f" secondAttribute="leadingMargin" constant="-20" id="zFI-Bl-fat"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="contentImageView" destination="n0V-0y-Yna" id="gm0-g2-HJY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cPp-oa-iqT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1319" y="-382"/>
+        </scene>
         <!--Files-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -34,7 +77,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileCell" id="XAr-tw-pdi" customClass="FileCellController" customModule="NotABaseM_Swift2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="0.0" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XAr-tw-pdi" id="GuU-RQ-hKE">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -182,16 +225,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gvi-Hk-Wfh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1319" y="232"/>
-        </scene>
-        <!--Walkthrough Page View Controller-->
-        <scene sceneID="xNS-ZZ-IjT">
-            <objects>
-                <pageViewController storyboardIdentifier="WalkthroughPageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="lik-dT-lW9" customClass="WalkthroughPageViewController" customModule="NotABaseM_Swift2" customModuleProvider="target" sceneMemberID="viewController">
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                </pageViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PPU-HX-TLj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1792" y="246"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="GQa-nN-655">

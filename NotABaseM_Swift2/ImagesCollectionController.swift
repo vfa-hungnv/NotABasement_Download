@@ -53,9 +53,16 @@ class ImagesCollectionController: UIViewController, UICollectionViewDelegate, UI
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-//        if let pageViewController = storyboard?.instantiateViewControllerWithIdentifier("WalkthroughController") as? WalkthroughPageViewController {
-//            
-//            presentViewController(pageViewController, animated: true, completion: nil)
-//        }
+        if let pageViewController = storyboard?.instantiateViewControllerWithIdentifier("WalkthroughController") as? WalkthroughPageViewController {
+            presentViewController(pageViewController, animated: true, completion: nil)
+        }
     }
 }
+
+
+
+
+
+
+
+

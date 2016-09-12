@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C0CF6351D863C7500772BC1 /* WalkthroughPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0CF6341D863C7500772BC1 /* WalkthroughPageViewController.swift */; };
 		0C0CF6371D863EF400772BC1 /* ImageViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0CF6361D863EF400772BC1 /* ImageViewCell.swift */; };
 		0C82A3DB1D8575AC00FCB0E9 /* ImagesCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C82A3DA1D8575AC00FCB0E9 /* ImagesCollectionController.swift */; };
+		0C94AED61D866FEC000B453F /* WalkthroughPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C94AED51D866FEC000B453F /* WalkthroughPageViewController.swift */; };
+		0C94AED81D867012000B453F /* WalkthroughContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C94AED71D867012000B453F /* WalkthroughContentViewController.swift */; };
 		0CAC98501D8447DC008704B8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC984F1D8447DC008704B8 /* AppDelegate.swift */; };
 		0CAC98521D8447DC008704B8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAC98511D8447DC008704B8 /* ViewController.swift */; };
 		0CAC98551D8447DC008704B8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CAC98531D8447DC008704B8 /* Main.storyboard */; };
@@ -22,9 +23,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0C0CF6341D863C7500772BC1 /* WalkthroughPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalkthroughPageViewController.swift; sourceTree = "<group>"; };
 		0C0CF6361D863EF400772BC1 /* ImageViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewCell.swift; sourceTree = "<group>"; };
 		0C82A3DA1D8575AC00FCB0E9 /* ImagesCollectionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesCollectionController.swift; sourceTree = "<group>"; };
+		0C94AED51D866FEC000B453F /* WalkthroughPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalkthroughPageViewController.swift; sourceTree = "<group>"; };
+		0C94AED71D867012000B453F /* WalkthroughContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WalkthroughContentViewController.swift; sourceTree = "<group>"; };
 		0CAC984C1D8447DC008704B8 /* NotABaseM_Swift2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NotABaseM_Swift2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CAC984F1D8447DC008704B8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CAC98511D8447DC008704B8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -87,7 +89,8 @@
 				0CAC984F1D8447DC008704B8 /* AppDelegate.swift */,
 				0CAC98511D8447DC008704B8 /* ViewController.swift */,
 				0C82A3DA1D8575AC00FCB0E9 /* ImagesCollectionController.swift */,
-				0C0CF6341D863C7500772BC1 /* WalkthroughPageViewController.swift */,
+				0C94AED51D866FEC000B453F /* WalkthroughPageViewController.swift */,
+				0C94AED71D867012000B453F /* WalkthroughContentViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -255,12 +258,13 @@
 			files = (
 				0C0CF6371D863EF400772BC1 /* ImageViewCell.swift in Sources */,
 				0C82A3DB1D8575AC00FCB0E9 /* ImagesCollectionController.swift in Sources */,
+				0C94AED61D866FEC000B453F /* WalkthroughPageViewController.swift in Sources */,
 				0CAC98521D8447DC008704B8 /* ViewController.swift in Sources */,
 				0CD593671D852BE600BA8964 /* ManagerFiles.swift in Sources */,
 				0CCAD45A1D850053005ED216 /* FileCellController.swift in Sources */,
+				0C94AED81D867012000B453F /* WalkthroughContentViewController.swift in Sources */,
 				0CAC98501D8447DC008704B8 /* AppDelegate.swift in Sources */,
 				0CD593661D852BE600BA8964 /* FileAndItem.swift in Sources */,
-				0C0CF6351D863C7500772BC1 /* WalkthroughPageViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

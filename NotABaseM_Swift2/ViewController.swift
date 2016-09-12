@@ -38,6 +38,7 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
     lazy var downloadsImagesSession: NSURLSession = {
         let configuration = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("images")
         configuration.HTTPMaximumConnectionsPerHost = 4
+        configuration.timeoutIntervalForRequest = 5
         let session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         return session
     }()
@@ -223,13 +224,7 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
             print("\nDM_ File not in path")
         }
     }
-    
-    private func callBack_AfterDownloadImages(imagesData: NSData) {
-        
-    }
-    
 
-    
 }
 
 extension ViewController: NSURLSessionDownloadDelegate {
@@ -309,7 +304,7 @@ extension ViewController: NSURLSessionDownloadDelegate {
     }
     
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        let indentifer = session.configuration.identifier
+        //let indentifer = session.configuration.identifier
 
     }
 }

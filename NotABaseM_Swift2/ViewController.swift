@@ -48,8 +48,7 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
         _ = self.downloadsSession
         print("DM_ Number of file in viewDidLoad: \(ManagerFiles.sharedInstance.numberOfFiles)")
         
-        //MARK:  DM_ For Debug
-        //addTapped(UIButton())
+
         
         //Get number in slide bar to set Number of file download at times
         let numberOfSteps = Float(numbers.count - 1)
@@ -207,8 +206,6 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
                         print("DM_ Can not read string from JSON")
                     }
                 }
-                ////MARK:  For Debug
-                //self.startTapped(UIBarButtonItem())
                 totalImages = (totalFiles)
                 print("DM_ File count:\(files.count)")
             }

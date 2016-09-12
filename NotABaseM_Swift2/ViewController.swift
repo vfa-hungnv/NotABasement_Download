@@ -301,7 +301,6 @@ extension ViewController: NSURLSessionDownloadDelegate {
                 self.tableView.reloadData()
                 self.percentLabel.text =  String(format: "%.1f%%",  progress * 100)
             }
-            
         default:
             print("DM_ Not hander yet!!!!")
             break

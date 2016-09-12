@@ -52,7 +52,7 @@
                   moduleName = "NotABaseM_Swift2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/donmichael1Root/Desktop/NotABaseM_Swift2/NotABaseM_Swift2/WalkthroughPageViewController.swift"
-                  timestampString = "495366874.513856"
+                  timestampString = "495368011.074218"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "95"
@@ -67,7 +67,7 @@
                   moduleName = "NotABaseM_Swift2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/donmichael1Root/Desktop/NotABaseM_Swift2/NotABaseM_Swift2/WalkthroughPageViewController.swift"
-                  timestampString = "495366874.514044"
+                  timestampString = "495368011.074415"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "95"
@@ -148,13 +148,45 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "NotABaseM_Swift2/ViewController.swift"
-            timestampString = "495366873.405342"
+            timestampString = "495368010.934709"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "375"
-            endingLineNumber = "375"
+            startingLineNumber = "370"
+            endingLineNumber = "370"
             landmarkName = "URLSessionDidFinishEventsForBackgroundURLSession(_:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NotABaseM_Swift2.ViewController.URLSessionDidFinishEventsForBackgroundURLSession (__ObjC.NSURLSession) -&gt; ()"
+                  moduleName = "NotABaseM_Swift2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/donmichael1Root/Desktop/NotABaseM_Swift2/NotABaseM_Swift2/ViewController.swift"
+                  timestampString = "495368011.075865"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "370"
+                  endingLineNumber = "370"
+                  offsetFromSymbolStart = "1550">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "NotABaseM_Swift2.ViewController.(URLSessionDidFinishEventsForBackgroundURLSession (__ObjC.NSURLSession) -&gt; ()).(closure #1)"
+                  moduleName = "NotABaseM_Swift2"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/donmichael1Root/Desktop/NotABaseM_Swift2/NotABaseM_Swift2/ViewController.swift"
+                  timestampString = "495368011.075972"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "370"
+                  endingLineNumber = "370"
+                  offsetFromSymbolStart = "379">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -170,54 +202,6 @@
             startingLineNumber = "300"
             endingLineNumber = "300"
             landmarkName = "URLSession(_:downloadTask:didFinishDownloadingToURL:)"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NotABaseM_Swift2.ViewController.URLSession (__ObjC.NSURLSession, downloadTask : __ObjC.NSURLSessionDownloadTask, didFinishDownloadingToURL : __ObjC.NSURL) -&gt; ()"
-                  moduleName = "NotABaseM_Swift2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/donmichael1Root/Desktop/NotABaseM_Swift2/NotABaseM_Swift2/ViewController.swift"
-                  timestampString = "495366907.352293"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "300"
-                  endingLineNumber = "300"
-                  offsetFromSymbolStart = "7983">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "NotABaseM_Swift2.ViewController.(URLSession (__ObjC.NSURLSession, downloadTask : __ObjC.NSURLSessionDownloadTask, didFinishDownloadingToURL : __ObjC.NSURL) -&gt; ()).(closure #2)"
-                  moduleName = "NotABaseM_Swift2"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/donmichael1Root/Desktop/NotABaseM_Swift2/NotABaseM_Swift2/ViewController.swift"
-                  timestampString = "495366907.352452"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "301"
-                  endingLineNumber = "301"
-                  offsetFromSymbolStart = "27">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "NotABaseM_Swift2/ViewController.swift"
-            timestampString = "495366910.148318"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "318"
-            endingLineNumber = "318"
-            landmarkName = "URLSession(_:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

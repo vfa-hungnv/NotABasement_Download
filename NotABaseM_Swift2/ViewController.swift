@@ -295,10 +295,11 @@ extension ViewController: NSURLSessionDownloadDelegate {
             }
             print("Dm_ Total: \(totalImages)")
             print("DM_ Total FileDone Count: \(ManagerFiles.sharedInstance.activeDownload?.count)")
-
+            let progress = Float((ManagerFiles.sharedInstance.activeDownload?.count)!)/Float(totalImages)
             dispatch_async(dispatch_get_main_queue()) {
                 self.navigationItem.title = "Files"
                 self.tableView.reloadData()
+                self.percentLabel.text =  String(format: "%.1f%%",  progress * 100)
             }
             
         default:
@@ -306,17 +307,11 @@ extension ViewController: NSURLSessionDownloadDelegate {
             break
         }
         
-        
-        
     }
     
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        let progress = Float(totalBytesWritten)/Float(totalBytesExpectedToWrite)
-        // 3
-        let totalSize = NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: NSByteCountFormatterCountStyle.Binary)
-        dispatch_async(dispatch_get_main_queue()) {
-            self.percentLabel.text =  String(format: "%.1f%% of %@",  progress * 100, totalSize)
-        }
+        let indentifer = session.configuration.identifier
+
     }
 }
 

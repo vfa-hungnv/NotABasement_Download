@@ -8,22 +8,14 @@
 
 import UIKit
 
-class WalkthroughPageViewController: UIPageViewController, UIPageViewControllerDataSource {
-    
-    var pageHeadings = ["Personalize", "Locate", "Discover"]
-    var pageImages = ["foodpin-intro-1", "foodpin-intro-2", "foodpin-intro-3"]
-    var pageContent = ["Pin your favorite restaurants and create your own food guide",
-                       "Search and locate your favourite restaurant on Maps",
-                       "Find restaurants pinned by your friends and other foodies around the world"]
-    
+class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
+    var indexOffile = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Set the data source to itself
         dataSource = self
         
-        // Create the first walkthrough screen
         if let startingViewController = viewControllerAtIndex(0) {
             setViewControllers([startingViewController], direction: .Forward, animated: true, completion: nil)
         }
@@ -31,14 +23,14 @@ class WalkthroughPageViewController: UIPageViewController, UIPageViewControllerD
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
     
     // MARK: - UIPageViewControllerDataSource
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         
-        var index = (viewController as! WalkthroughContentViewController).index
+        var index = (viewController as! ContentViewController).index
         index += 1
         
         return viewControllerAtIndex(index)
@@ -46,25 +38,67 @@ class WalkthroughPageViewController: UIPageViewController, UIPageViewControllerD
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         
-        var index = (viewController as! WalkthroughContentViewController).index
+        var index = (viewController as! ContentViewController).index
         index -= 1
         
         return viewControllerAtIndex(index)
     }
     
-    func viewControllerAtIndex(index: Int) -> WalkthroughContentViewController? {
+    private func drawPDFfromURL(url: NSURL) -> UIImage? {
+        guard let document = CGPDFDocumentCreateWithURL(url) else { return nil }
+        guard let page = CGPDFDocumentGetPage(document, 1) else { return nil }
         
-        if index == NSNotFound || index < 0 || index >= pageHeadings.count {
+        let pageRect = CGPDFPageGetBoxRect(page, .MediaBox)
+        
+        UIGraphicsBeginImageContextWithOptions(pageRect.size, true, 0)
+        let context = UIGraphicsGetCurrentContext()
+        
+        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+        CGContextFillRect(context,pageRect)
+        
+        CGContextTranslateCTM(context, 0.0, pageRect.size.height);
+        CGContextScaleCTM(context, 1.0, -1.0);
+        
+        CGContextDrawPDFPage(context, page);
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        
+        return img
+    }
+    
+    func viewControllerAtIndex(index: Int) -> ContentViewController? {
+        
+        if index == NSNotFound || index < 0 {
             return nil
         }
         
         // Create a new view controller and pass suitable data.
-        if let pageContentViewController = storyboard?.instantiateViewControllerWithIdentifier("WalkthroughContentViewController") as? WalkthroughContentViewController {
-            
-            pageContentViewController.imageFile = pageImages[index]
-            pageContentViewController.heading = pageHeadings[index]
-            pageContentViewController.content = pageContent[index]
+        if let pageContentViewController = storyboard?.instantiateViewControllerWithIdentifier("ContentViewController") as? ContentViewController {
+
             pageContentViewController.index = index
+            
+            if let files = ManagerFiles.sharedInstance.files {
+                
+                let imageDownloadURL = files[indexOffile].images[index].urlString
+                
+                if let imageDowloadedURL = ManagerFiles.sharedInstance.activeDownload![imageDownloadURL] {
+                    print("DM_ donwloaded at: \(imageDowloadedURL)")
+                    let extention = imageDowloadedURL.lastPathComponent?.componentsSeparatedByString(".").last
+                    // For debug
+                    print("DM_ Format: \(extention)")
+                    if extention == "pdf" {
+                        if let _ = drawPDFfromURL(imageDowloadedURL) {
+                            pageContentViewController.imageFile = drawPDFfromURL(imageDowloadedURL)!
+                        }
+                    } else {
+                        if let imageData = NSData(contentsOfURL: imageDowloadedURL) {
+                            pageContentViewController.imageFile = UIImage(data: imageData)!
+                        }
+                    }
+                }
+            }
+            
             
             return pageContentViewController
         }
@@ -77,32 +111,5 @@ class WalkthroughPageViewController: UIPageViewController, UIPageViewControllerD
             setViewControllers([nextViewController], direction: .Forward, animated: true, completion: nil)
         }
     }
-    
-    // For default page indicator
-    /*
-     func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-     return pageHeadings.count
-     }
-     
-     func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
-     if let pageContentViewController = storyboard?.instantiateViewControllerWithIdentifier("WalkthroughContentViewController") as? WalkthroughContentViewController {
-     
-     return pageContentViewController.index
-     }
-     
-     return 0
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-     // Get the new view controller using segue.destinationViewController.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
 }
 

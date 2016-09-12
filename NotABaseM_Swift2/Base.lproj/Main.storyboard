@@ -7,20 +7,20 @@
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
-        <!--Walkthrough Page View Controller-->
+        <!--Page View Controller-->
         <scene sceneID="g4I-po-F3N">
             <objects>
-                <pageViewController storyboardIdentifier="WalkthroughController" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="iNM-6U-JOz" customClass="WalkthroughPageViewController" customModule="NotABaseM_Swift2" customModuleProvider="target" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="iNM-6U-JOz" customClass="PageViewController" customModule="NotABaseM_Swift2" customModuleProvider="target" sceneMemberID="viewController">
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="01X-6P-ksp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="914" y="-382"/>
         </scene>
-        <!--Walkthrough Content View Controller-->
+        <!--Content View Controller-->
         <scene sceneID="Kw2-Ho-a89">
             <objects>
-                <viewController storyboardIdentifier="WalkthroughContentViewController" id="Z8j-7N-4d8" customClass="WalkthroughContentViewController" customModule="NotABaseM_Swift2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ContentViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Z8j-7N-4d8" customClass="ContentViewController" customModule="NotABaseM_Swift2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5Nc-wx-9qe"/>
                         <viewControllerLayoutGuide type="bottom" id="Kum-1C-CUQ"/>
@@ -29,21 +29,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n0V-0y-Yna">
-                                <rect key="frame" x="-4" y="20" width="328" height="548"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n0V-0y-Yna">
+                                <rect key="frame" x="-8" y="20" width="336" height="548"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="5eF-tb-8Yg">
+                                <rect key="frame" x="141" y="523" width="39" height="37"/>
+                            </pageControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sri-ST-Z5J">
+                                <rect key="frame" x="258" y="538" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="nextButtonTapped:" destination="Z8j-7N-4d8" eventType="touchUpInside" id="tfY-JL-V9T"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="n0V-0y-Yna" firstAttribute="top" secondItem="5Nc-wx-9qe" secondAttribute="bottom" id="PXX-Q8-AlL"/>
-                            <constraint firstItem="Kum-1C-CUQ" firstAttribute="top" secondItem="n0V-0y-Yna" secondAttribute="bottom" id="ohG-T5-CRh"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="n0V-0y-Yna" secondAttribute="trailing" constant="-20" id="rg3-Oe-CG5"/>
-                            <constraint firstItem="n0V-0y-Yna" firstAttribute="leading" secondItem="Ru8-iN-K6f" secondAttribute="leadingMargin" constant="-20" id="zFI-Bl-fat"/>
+                            <constraint firstItem="5eF-tb-8Yg" firstAttribute="centerX" secondItem="Ru8-iN-K6f" secondAttribute="centerX" id="6fO-BT-6zf"/>
+                            <constraint firstItem="n0V-0y-Yna" firstAttribute="top" secondItem="5Nc-wx-9qe" secondAttribute="bottom" id="KDv-9i-KqP"/>
+                            <constraint firstItem="Kum-1C-CUQ" firstAttribute="top" secondItem="n0V-0y-Yna" secondAttribute="bottom" id="NPr-Pr-RjZ"/>
+                            <constraint firstItem="Kum-1C-CUQ" firstAttribute="top" secondItem="5eF-tb-8Yg" secondAttribute="bottom" constant="8" id="i4K-zN-zfO"/>
+                            <constraint firstItem="Kum-1C-CUQ" firstAttribute="top" secondItem="Sri-ST-Z5J" secondAttribute="bottom" id="nXk-7W-3JV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="n0V-0y-Yna" secondAttribute="trailing" constant="-24" id="wlj-5F-BcS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Sri-ST-Z5J" secondAttribute="trailing" id="zTa-vd-m2a"/>
+                            <constraint firstItem="n0V-0y-Yna" firstAttribute="leading" secondItem="Ru8-iN-K6f" secondAttribute="leadingMargin" constant="-24" id="zZg-Ql-dPu"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="contentImageView" destination="n0V-0y-Yna" id="gm0-g2-HJY"/>
+                        <outlet property="forwardButton" destination="Sri-ST-Z5J" id="XFR-E3-qMV"/>
+                        <outlet property="pageControl" destination="5eF-tb-8Yg" id="XGk-2G-LWy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cPp-oa-iqT" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -62,22 +81,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CfE-S7-erT">
-                                <rect key="frame" x="-4" y="524" width="328" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CfE-S7-erT">
+                                <rect key="frame" x="0.0" y="524" width="328" height="44"/>
                                 <items>
                                     <barButtonItem style="plain" id="baa-MM-7Yg">
                                         <slider key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" id="FVU-ZA-aEz">
-                                            <rect key="frame" x="14" y="6.5" width="291" height="31"/>
+                                            <rect key="frame" x="14" y="6.5" width="166" height="31"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </slider>
                                     </barButtonItem>
                                 </items>
                             </toolbar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="s6Y-28-ePq">
+                                <rect key="frame" x="0.0" y="64" width="320" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="fileCell" id="XAr-tw-pdi" customClass="FileCellController" customModule="NotABaseM_Swift2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="0.0" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XAr-tw-pdi" id="GuU-RQ-hKE">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
@@ -123,13 +143,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z7j-VX-PCF">
+                                <rect key="frame" x="271" y="535" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="CfE-S7-erT" secondAttribute="bottom" id="9Qu-Mh-P9G"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="CfE-S7-erT" secondAttribute="trailing" constant="-20" id="Qc8-Ka-WqH"/>
-                            <constraint firstItem="CfE-S7-erT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="gqw-5D-X4K"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Files" id="GaQ-Hk-IEc">
                         <leftBarButtonItems>
@@ -144,17 +165,31 @@
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
-                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="dLq-5e-f7V">
-                            <connections>
-                                <action selector="startTapped:" destination="BYZ-38-t0r" id="VG5-r0-O9D"/>
-                            </connections>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="vUm-0l-LgK">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" id="avs-b9-cpG">
+                                <rect key="frame" x="233" y="7" width="71" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Start">
+                                            <attributes>
+                                                <font key="NSFont" size="15" name="HelveticaNeue"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <connections>
+                                    <action selector="controlButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sdn-dH-YwH"/>
+                                </connections>
+                            </button>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="controlButton" destination="avs-b9-cpG" id="brR-xZ-jsX"/>
+                        <outlet property="percentLabel" destination="z7j-VX-PCF" id="erM-ky-QvG"/>
                         <outlet property="slider" destination="FVU-ZA-aEz" id="oIk-Pc-PLy"/>
                         <outlet property="sliderNumber" destination="W15-AJ-MUx" id="uag-ao-HwS"/>
-                        <outlet property="startButton" destination="dLq-5e-f7V" id="mxW-m8-3lA"/>
                         <outlet property="tableView" destination="s6Y-28-ePq" id="qUy-C6-r9t"/>
                     </connections>
                 </viewController>

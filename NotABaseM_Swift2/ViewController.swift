@@ -16,12 +16,14 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
     
     @IBOutlet var tableView: UITableView!
     
+    @IBOutlet var controlButton: UIButton!
     @IBOutlet var startButton: UIBarButtonItem!
     let fileManager = NSFileManager.defaultManager()
     
     @IBOutlet var slider: UISlider!
     @IBOutlet var sliderNumber: UILabel!
     
+    @IBOutlet var percentLabel: UILabel!
     var destination: NSURL?
     var fileFoderUrl: NSURL!
     let fileUrl = NSURL(string: "https://dl.dropboxusercontent.com/u/4529715/JSON%20files.zip")
@@ -39,6 +41,10 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
         let session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         return session
     }()
+    
+    
+    
+    
     // Hander slider
     var numbers = [1, 2, 3, 4]
     var oldIndex = 0
@@ -52,16 +58,19 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
         print("DM_ Number of file in viewDidLoad: \(ManagerFiles.sharedInstance.numberOfFiles)")
         
         //MARK:  DM_ For Debug
+        //addTapped(UIButton())
         
-        addTapped(UIButton())
-        
+        //Get number in slide bar to set Number of file download at times
         let numberOfSteps = Float(numbers.count - 1)
         slider!.maximumValue = numberOfSteps;
         slider!.minimumValue = 0;
         
-        // As the slider moves it will continously call the -valueChanged:
-        slider!.continuous = true; // false makes it call only once you let go
+        //  the slider moves it will continously call the -valueChanged:
+        slider!.continuous = true; //
         slider!.addTarget(self, action: #selector(ViewController.valueChanged(_:)), forControlEvents: .ValueChanged)
+        
+        controlButton.titleLabel?.text = "Start"
+        
     }
     
     func valueChanged(sender: UISlider) {
@@ -77,7 +86,19 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
             numberOfDownloadFile = numbers[index]
         }
     }
-
+    
+    @IBAction func controlButtonTapped(sender: AnyObject) {
+        print("DM Button: \(controlButton.titleLabel?.text )")
+        if(controlButton.titleLabel?.text == "Start") {
+            
+            dowloadAllImages()
+        } else {
+            
+            dataTask?.suspend()
+        }
+    }
+    
+    
     @IBAction func addTapped(sender: AnyObject) {
         self.navigationItem.title = "Adding Files..."
         dataTask = downloadsSession.downloadTaskWithURL(fileUrl!)
@@ -99,22 +120,14 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
         }
     }
     
-    @IBAction func startTapped(sender: AnyObject) {
+
+    
+    private func dowloadAllImages () {
         if let files = ManagerFiles.sharedInstance.files {
-            
             if files.count > 0 {
-                // Mark: for debug, test 1 file
-                let file = files[6]
-                
-                self.navigationItem.title = "Downloadding..."
-                (sender as! UIBarButtonItem).enabled = false
-                startDownloadImages(file)
-                
-//                Download all file start at once
-//                for file in files {
-//                    (sender as! UIBarButtonItem).enabled = false
-//                    startDownloadImages(file)
-//                }
+                for file in files {
+                    startDownloadImages(file)
+                }
             } else {
                 let alert = UIAlertController(title: "Not have file to download", message: "Add file first", preferredStyle: .Alert)
                 let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
@@ -128,12 +141,13 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
     private func startDownloadImages(file: File) {
         for image in file.images {
                 
-            print("\nDM_ Downloading: \(image.urlString)")
+            //print("\nDM_ Downloading: \(image.urlString)")
             ManagerFiles.sharedInstance.activeDownload![image.urlString] = nil
             dataTask = downloadsImagesSession.downloadTaskWithURL(NSURL(string: image.urlString)!)
             
             dataTask?.resume()
         }
+          print("\nDM_ Downloading: file\(file.name)")
     }
     
     private func unZipFile(location: NSURL) {
@@ -164,9 +178,9 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
         }
         return nil
     }
-    
+    var totalImages = 0.0
     private func callBack_GetURLOfJsonFile_SetDataToManagerFile(folderOfJSONFile: NSURL?) {
-        
+        var totalFiles = 0.0
         if ( isFileExistAtPath(folderOfJSONFile!)) {
             
             // Read the folder to get array of json file
@@ -187,6 +201,7 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
                             // Add image to file
                             for urlString in jsons.array! {
                                 let image = Image(urlStr: urlString.string!)
+                                totalFiles += 1.0
                                 fileStruct.images.append(image)
                             }
                             // Add file to managerFiles
@@ -198,7 +213,8 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
                     }
                 }
                 ////MARK:  For Debug
-                self.startTapped(UIBarButtonItem())
+                //self.startTapped(UIBarButtonItem())
+                totalImages = (totalFiles)
                 print("DM_ File count:\(files.count)")
             }
             
@@ -251,7 +267,6 @@ extension ViewController: NSURLSessionDownloadDelegate {
                     
                     self.callBack_GetURLOfJsonFile_SetDataToManagerFile(folderOfJSONFile)
                     self.navigationItem.title = "Files"
-                    self.startButton.enabled = true
                     self.tableView.reloadData()
                 }
             } catch {
@@ -270,17 +285,19 @@ extension ViewController: NSURLSessionDownloadDelegate {
                 }
                 do {
                     try fileManager.copyItemAtURL(location, toURL: destinationURL)
+                    
                     ManagerFiles.sharedInstance.activeDownload![originalURL] = destinationURL
-                    print("\nDM_ Download done: \(destinationURL)")
+                    //For debug
+                    //print("\nDM_ Download done: \(destinationURL)")
                 } catch let error as NSError {
                     print("Could not copy file to disk: \(error.localizedDescription)")
                 }
             }
-            print("DM_ ActiveDownload Count: \(ManagerFiles.sharedInstance.activeDownload?.count)")
-            dispatch_async(dispatch_get_main_queue()) {
+            print("Dm_ Total: \(totalImages)")
+            print("DM_ Total FileDone Count: \(ManagerFiles.sharedInstance.activeDownload?.count)")
 
+            dispatch_async(dispatch_get_main_queue()) {
                 self.navigationItem.title = "Files"
-                self.startButton.enabled = true
                 self.tableView.reloadData()
             }
             
@@ -294,8 +311,11 @@ extension ViewController: NSURLSessionDownloadDelegate {
     }
     
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        let progress = Float(totalBytesWritten)/Float(totalBytesExpectedToWrite)
+        // 3
+        let totalSize = NSByteCountFormatter.stringFromByteCount(totalBytesExpectedToWrite, countStyle: NSByteCountFormatterCountStyle.Binary)
         dispatch_async(dispatch_get_main_queue()) {
-            
+            self.percentLabel.text =  String(format: "%.1f%% of %@",  progress * 100, totalSize)
         }
     }
 }
@@ -350,6 +370,7 @@ extension ViewController: NSURLSessionDelegate {
                     print("DM_ bgSessionImagesConfiguration")
                 }
                 dispatch_async(dispatch_get_main_queue(), {
+                    self.controlButton.titleLabel?.text = "Start"
                     completionHandler()
                 })
             }

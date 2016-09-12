@@ -36,9 +36,19 @@ struct File {
     init(name: String?) {
         self.name = name!
     }
-    
     var name: String = ""
     var status: String = "Click to download"
     var images = [Image]()
     
+}
+
+class Download: NSObject {
+    var name: String?
+    var isDownload = false
+    var url: NSURL?
+    var progress: Float = 0.0
+    var downloadTask: NSURLSessionDownloadTask?
+    init(url :NSURL) {
+        self.url = url
+    }
 }

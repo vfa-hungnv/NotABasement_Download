@@ -7,8 +7,6 @@
 //
 
 import UIKit
-
-import Alamofire
 import Zip
 import SwiftyJSON
 
@@ -16,70 +14,126 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
     
     var dataTask: NSURLSessionDownloadTask?
     
-    @IBOutlet var progress: UIProgressView!
     @IBOutlet var tableView: UITableView!
     
-    var arrayTitleOfFile: [String] = []
-    var jsonArray : [JSON] = []
-    
+    @IBOutlet var startButton: UIBarButtonItem!
     let fileManager = NSFileManager.defaultManager()
+    
+    @IBOutlet var slider: UISlider!
+    @IBOutlet var sliderNumber: UILabel!
     
     var destination: NSURL?
     var fileFoderUrl: NSURL!
     let fileUrl = NSURL(string: "https://dl.dropboxusercontent.com/u/4529715/JSON%20files.zip")
+    var imagesUrl = NSURL(string: "")
     
     lazy var downloadsSession: NSURLSession = {
-        let configuration = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("bgSessionConfiguration")
+        let configuration = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("add")
         let session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: nil)
         return session
     }()
-    
+    var numberOfDownloadFile: Int = 1
+    lazy var downloadsImagesSession: NSURLSession = {
+        let configuration = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("images")
+        configuration.HTTPMaximumConnectionsPerHost = 4
+        let session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        return session
+    }()
+    // Hander slider
+    var numbers = [1, 2, 3, 4]
+    var oldIndex = 0
+    // 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
         _ = self.downloadsSession
+        print("DM_ Number of file in viewDidLoad: \(ManagerFiles.sharedInstance.numberOfFiles)")
+        
+        //MARK:  DM_ For Debug
+        
+        addTapped(UIButton())
+        
+        let numberOfSteps = Float(numbers.count - 1)
+        slider!.maximumValue = numberOfSteps;
+        slider!.minimumValue = 0;
+        
+        // As the slider moves it will continously call the -valueChanged:
+        slider!.continuous = true; // false makes it call only once you let go
+        slider!.addTarget(self, action: #selector(ViewController.valueChanged(_:)), forControlEvents: .ValueChanged)
+    }
+    
+    func valueChanged(sender: UISlider) {
+        // round the slider position to the nearest index of the numbers array
+        let index = (Int)(slider!.value + 0.5);
+        slider?.setValue(Float(index), animated: false)
+        let number = numbers[index]
+        if oldIndex != index{
+            print("sliderIndex:\(index)")
+            print("number: \(number)")
+            sliderNumber.text = "Number: \(number)"
+            oldIndex = index
+            numberOfDownloadFile = numbers[index]
+        }
+    }
+
+    @IBAction func addTapped(sender: AnyObject) {
+        self.navigationItem.title = "Adding Files..."
         dataTask = downloadsSession.downloadTaskWithURL(fileUrl!)
-        
-        self.progress.progress = 0.0
-        self.progress.hidden = false
-        startdownload()
-        
-    }
-    
-    private func loadImageTask(imageURL: NSURL, image: UIImageView) {
-        let imageURL = NSURL(string: "http://submanga.org/resources/uploads/manga/boku-wa-kimi-no-shiro/capitulo/es/0/1.jpg")
-        
-        
-        let imageTask = NSURLSession.sharedSession().dataTaskWithURL(imageURL!, completionHandler: {
-            data, response, error in
-            
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let httpResponse = response as? NSHTTPURLResponse {
-                if httpResponse.statusCode == 200 {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        
-                        image.image = UIImage(data: data!)
-                        print("DM_ Set image done")
-                    }
-                } else {
-                    print("DM_ Some thing wrong with response")
-                }
-            }
-        })
-        
-        imageTask.resume()
-    }
-    
-    private func startdownload() {
-        
         dataTask?.resume()
     }
     
-    private func stopDownload() {
-        dataTask?.suspend()
+    
+    @IBAction func resetTapped(sender: AnyObject) {
+        self.navigationItem.title = "Files"
+        dataTask?.cancel()
+        
+        self.resetTableAndDeleteInManagerFile()
+    }
+    
+    private func resetTableAndDeleteInManagerFile() {
+        if (ManagerFiles.sharedInstance.files?.count > 0) {
+            ManagerFiles.sharedInstance.files?.removeAll()
+            tableView.reloadData()
+        }
+    }
+    
+    @IBAction func startTapped(sender: AnyObject) {
+        if let files = ManagerFiles.sharedInstance.files {
+            
+            if files.count > 0 {
+                // Mark: for debug, test 1 file
+                let file = files[6]
+                
+                self.navigationItem.title = "Downloadding..."
+                (sender as! UIBarButtonItem).enabled = false
+                startDownloadImages(file)
+                
+//                Download all file start at once
+//                for file in files {
+//                    (sender as! UIBarButtonItem).enabled = false
+//                    startDownloadImages(file)
+//                }
+            } else {
+                let alert = UIAlertController(title: "Not have file to download", message: "Add file first", preferredStyle: .Alert)
+                let action = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alert.addAction(action)
+                self.presentViewController(alert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    // Download all images in files
+    private func startDownloadImages(file: File) {
+        for image in file.images {
+                
+            print("\nDM_ Downloading: \(image.urlString)")
+            ManagerFiles.sharedInstance.activeDownload![image.urlString] = nil
+            dataTask = downloadsImagesSession.downloadTaskWithURL(NSURL(string: image.urlString)!)
+            
+            dataTask?.resume()
+        }
     }
     
     private func unZipFile(location: NSURL) {
@@ -95,128 +149,213 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
         }
     }
     
+    // MARK: 2 Download helper methods
+    
     private func isFileExistAtPath(filePath: NSURL?) -> Bool {
         return self.fileManager.fileExistsAtPath(filePath!.path!)
     }
     
-    private func parseJson(folderOfJSONFile: NSURL?) {
+    private func localFilePathForUrl(imageURL: String) -> NSURL? {
+        
+        let documentsPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
+        if let url = NSURL(string: imageURL), let lastPathComponent = url.lastPathComponent {
+            let fullPath = documentsPath.stringByAppendingPathComponent(lastPathComponent)
+            return NSURL(fileURLWithPath:fullPath)
+        }
+        return nil
+    }
+    
+    private func callBack_GetURLOfJsonFile_SetDataToManagerFile(folderOfJSONFile: NSURL?) {
         
         if ( isFileExistAtPath(folderOfJSONFile!)) {
-            let files = try?  fileManager.contentsOfDirectoryAtURL(folderOfJSONFile!, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions.SkipsSubdirectoryDescendants)
             
-            if let files = files {
+            // Read the folder to get array of json file
+            let arrayOfFile = try?  fileManager.contentsOfDirectoryAtURL(folderOfJSONFile!, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions.SkipsSubdirectoryDescendants)
+            
+            if let files = arrayOfFile {
                 for file in files {
                     let stringJSON = try? NSString(contentsOfURL: file, encoding: NSUTF8StringEncoding)
                     
                     if let stringJSON = stringJSON {
                         if let dataFromString = stringJSON.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
-                            let json = JSON(data: dataFromString)
-                            jsonArray.append(json)
+                            let jsons = JSON(data: dataFromString)
+                            
+                            var fileStruct = File(name: file.lastPathComponent!.localizedCapitalizedString)
+                            
+                            // Now add image to file, file to manager, image create by the urlDonwloadLink
+                            
+                            // Add image to file
+                            for urlString in jsons.array! {
+                                let image = Image(urlStr: urlString.string!)
+                                fileStruct.images.append(image)
+                            }
+                            // Add file to managerFiles
+                            ManagerFiles.sharedInstance.files?.append(fileStruct)
+                            
                         }
                     } else {
                         print("DM_ Can not read string from JSON")
                     }
                 }
+                ////MARK:  For Debug
+                self.startTapped(UIBarButtonItem())
+                print("DM_ File count:\(files.count)")
             }
             
-            if (jsonArray.count > 0) {
-                print("DM_ 1st: \(jsonArray[0]), count: \(jsonArray.count)")
-            }
-
+            
         } else {
             print("\nDM_ File not in path")
         }
     }
     
-    private func callBack_GetURLOfJsonFile(folderOfJSONFile: NSURL?) {
-        if (isFileExistAtPath(folderOfJSONFile!)) {
-            
-            let filesURL = try?  fileManager.contentsOfDirectoryAtURL(folderOfJSONFile!, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions.SkipsSubdirectoryDescendants)
-            if self.arrayTitleOfFile.count > 0 {
-                self.arrayTitleOfFile.removeAll()
-            }
-            
-            for file in filesURL! {
-                let title = file.lastPathComponent!.localizedCapitalizedString
-                self.arrayTitleOfFile.append(title)
-            }
-            
-        } else {
-            print("\nDM_ File not in path")
-        }
+    private func callBack_AfterDownloadImages(imagesData: NSData) {
+        
     }
+    
 
+    
 }
+
 extension ViewController: NSURLSessionDownloadDelegate {
     
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didFinishDownloadingToURL location: NSURL) {
         
-        fileFoderUrl = try! fileManager.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true)
+        let indentifer = session.configuration.identifier
         
-        let lastPathComponent = self.fileUrl!.lastPathComponent!
-        
-        destination = fileFoderUrl.URLByAppendingPathComponent(lastPathComponent)
-        
-        if (self.fileManager.fileExistsAtPath((self.destination?.path)!)) {
+        switch indentifer! {
+        case "add":
+            // Move and unzip file
             do {
-                try self.fileManager.removeItemAtURL(self.destination!)
+                fileFoderUrl = try! fileManager.URLForDirectory(.DocumentDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: true)
+                
+                let lastPathComponent = self.fileUrl!.lastPathComponent!
+                
+                destination = fileFoderUrl.URLByAppendingPathComponent(lastPathComponent)
+                
+                if (self.fileManager.fileExistsAtPath((self.destination?.path)!)) {
+                    do {
+                        try self.fileManager.removeItemAtURL(self.destination!)
+                    } catch {
+                        print("DM_ Can not remove file existed")
+                    }
+                }
+                try self.fileManager.moveItemAtURL(location, toURL: self.destination!)
+                self.unZipFile(self.destination!)
+                
+                // check if forder after unzip have json file
+                let folderOfJSONFile = fileFoderUrl?.URLByAppendingPathComponent("JSON files/JSON files/")
+                
+                print("\nDM_ Download and unzip at susscess full")
+                //print("\nDM_ Destination of files: \(destination)")
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    self.callBack_GetURLOfJsonFile_SetDataToManagerFile(folderOfJSONFile)
+                    self.navigationItem.title = "Files"
+                    self.startButton.enabled = true
+                    self.tableView.reloadData()
+                }
             } catch {
-                print("DM_ Can not remove file existed")
+                print("DM_ Can not move file to destionation")
             }
-        }
-        // Move and unzip file
-        do {
-            try self.fileManager.moveItemAtURL(location, toURL: self.destination!)
-            self.unZipFile(self.destination!)
-        } catch {
-            print("DM_ Can not move file to destionation")
-        }
-        
-        // check if forder after unzip have json file 
-        let folderOfJSONFile = fileFoderUrl?.URLByAppendingPathComponent("JSON files/JSON files/")
-        
-        print("\nDM_ Download Done at: \n\(folderOfJSONFile)\n Now call back reload table")
-        
-        // After download parse JSON and reload table
-        
-        self.parseJson(folderOfJSONFile)
-        
-        dispatch_async(dispatch_get_main_queue()) {
+        case "images":
+            // Move
+            if let originalURL = downloadTask.originalRequest?.URL?.absoluteString,
+                let destinationURL = localFilePathForUrl(originalURL) {
+
+                let fileManager = NSFileManager.defaultManager()
+                do {
+                    try fileManager.removeItemAtURL(destinationURL)
+                } catch {
+                    // file probably doesn't exist
+                }
+                do {
+                    try fileManager.copyItemAtURL(location, toURL: destinationURL)
+                    ManagerFiles.sharedInstance.activeDownload![originalURL] = destinationURL
+                    print("\nDM_ Download done: \(destinationURL)")
+                } catch let error as NSError {
+                    print("Could not copy file to disk: \(error.localizedDescription)")
+                }
+            }
+            print("DM_ ActiveDownload Count: \(ManagerFiles.sharedInstance.activeDownload?.count)")
+            dispatch_async(dispatch_get_main_queue()) {
+
+                self.navigationItem.title = "Files"
+                self.startButton.enabled = true
+                self.tableView.reloadData()
+            }
             
-            self.callBack_GetURLOfJsonFile(folderOfJSONFile)
-            self.progress.hidden = true
-            self.tableView.reloadData()
+        default:
+            print("DM_ Not hander yet!!!!")
+            break
         }
+        
+        
+        
     }
     
     func URLSession(session: NSURLSession, downloadTask: NSURLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
         dispatch_async(dispatch_get_main_queue()) {
-            let percent:Float = Float(totalBytesWritten) / Float(totalBytesExpectedToWrite)
-            self.progress.progress = percent
+            
         }
     }
 }
 
 extension ViewController: UITableViewDataSource {
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        return (self.arrayTitleOfFile.count)
+        if let files = ManagerFiles.sharedInstance.files {
+            return files.count
+        }
+        
+        return 1
     }
     
-    
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("fileCell", forIndexPath: indexPath) as! FileCellController
-        cell.fileName.text = self.arrayTitleOfFile[indexPath.row]
+        if let files = ManagerFiles.sharedInstance.files {
+            cell.fileName.text = files[indexPath.row].name
+            cell.status.text = files[indexPath.row].status
+        }
         return cell
     }
 }
 
 extension ViewController: UITableViewDelegate {
-    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("DM_ Select at \(indexPath.row)")
+        if let controller = self.storyboard?.instantiateViewControllerWithIdentifier("ImagesCollectionController") as? ImagesCollectionController {
+            controller.numberOfFile = indexPath.row
+            if let files = ManagerFiles.sharedInstance.files {
+                controller.file = files[indexPath.row]
+            }
+            
+            self.navigationController?.pushViewController(controller, animated: true)
+            
+        }
+    }
 }
 
-
+extension ViewController: NSURLSessionDelegate {
+    
+    func URLSessionDidFinishEventsForBackgroundURLSession(session: NSURLSession) {
+        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            if let completionHandler = appDelegate.backgroundSessionCompletionHandler {
+                appDelegate.backgroundSessionCompletionHandler = nil
+                
+                if (appDelegate.indentiferDownload == "bgSessionConfiguration") {
+                    print("DM_ bgSessionConfiguration")
+                } else if (appDelegate.indentiferDownload == "bgSessionImagesConfiguration"){
+                    print("DM_ bgSessionImagesConfiguration")
+                }
+                dispatch_async(dispatch_get_main_queue(), {
+                    completionHandler()
+                })
+            }
+        }
+    }
+}
 
 
 

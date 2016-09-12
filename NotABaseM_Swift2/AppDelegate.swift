@@ -10,7 +10,14 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
+    var backgroundSessionCompletionHandler: (() -> Void)?
+    var indentiferDownload : String = ""
+    func application(application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: () -> Void) {
+        backgroundSessionCompletionHandler = completionHandler
+        indentiferDownload = identifier
+    }
+    
     var window: UIWindow?
 
 

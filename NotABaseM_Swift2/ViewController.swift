@@ -31,7 +31,10 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
     
     lazy var downloadsSession: NSURLSession = {
         let configuration = NSURLSessionConfiguration.backgroundSessionConfigurationWithIdentifier("background")
+        configuration.HTTPMaximumConnectionsPerHost = 4
+        configuration.timeoutIntervalForRequest = 20
         let session = NSURLSession(configuration: configuration, delegate: self, delegateQueue: nil)
+        
         return session
     }()
     var numberOfImageDownloadAtOne: Int = 1
@@ -99,8 +102,14 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
     
     @IBAction func resetTapped(sender: AnyObject) {
         self.navigationItem.title = "Files"
-        dataTask?.cancel()
         
+        //dataTask?.cancel()
+        
+        downloadsSession.getAllTasksWithCompletionHandler { tasks in
+            tasks.forEach { $0.cancel() }
+        }
+        
+        percentLabel.text = "Stop and clear. Done!!"
         self.resetTableAndDeleteInManagerFile()
     }
     
@@ -110,8 +119,6 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
             tableView.reloadData()
         }
     }
-    
-
     
     private func dowloadAllImages () {
         if let files = ManagerFiles.sharedInstance.files {
@@ -240,7 +247,7 @@ extension ViewController: NSURLSessionDownloadDelegate {
             let fileExtention = currentURLString.componentsSeparatedByString(".").last,
             let lastComponent = currentURL.lastPathComponent {
             
-            print("\(currentURL), \(fileExtention)")
+            //print("\(currentURL), \(fileExtention)")
             do {
                 var destination = fileFoderUrl.URLByAppendingPathComponent(lastComponent)
                 
@@ -320,7 +327,8 @@ extension ViewController: NSURLSessionDelegate {
                     print("DM_ bgSessionImagesConfiguration")
                 }
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.controlButton.titleLabel?.text = "Start"
+                    //self.controlButton.titleLabel?.text = "Start"
+                    print("DM_ All File Done")
                     completionHandler()
                 })
             }

@@ -143,14 +143,19 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z7j-VX-PCF">
-                                <rect key="frame" x="232" y="535" width="81" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z7j-VX-PCF">
+                                <rect key="frame" x="177" y="535" width="140" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="z7j-VX-PCF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="161" id="9zR-6f-x1u"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="z7j-VX-PCF" secondAttribute="bottom" constant="12" id="psJ-GZ-WW7"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="z7j-VX-PCF" secondAttribute="trailing" constant="-13" id="qqR-RB-SAj"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Files" id="GaQ-Hk-IEc">
                         <leftBarButtonItems>

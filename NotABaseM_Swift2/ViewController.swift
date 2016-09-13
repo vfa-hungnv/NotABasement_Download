@@ -61,6 +61,7 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
         
         controlButton.titleLabel?.text = "Start"
         
+        
     }
     
     func valueChanged(sender: UISlider) {
@@ -115,13 +116,21 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
     private func dowloadAllImages () {
         if let files = ManagerFiles.sharedInstance.files {
             if files.count > 0 {
-                // Debug
+//                For  Debug(download 1 file)
 //                let file = files[0]
 //                startDownloadImages(file)
                 
-                for file in files {
-                    startDownloadImages(file)
-                }
+                
+                let qualityOfServiceClass = QOS_CLASS_BACKGROUND
+                let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
+                
+                dispatch_async(backgroundQueue, {
+                    print("This is run on the background queue")
+                    for file in files {
+                        self.startDownloadImages(file)
+                    }
+                })
+                
             } else {
                 let alert = UIAlertController(title: "Not have file to download", message: "Add file first", preferredStyle: .Alert)
                 let action = UIAlertAction(title: "OK", style: .Default, handler: nil)

@@ -81,10 +81,10 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
     @IBAction func controlButtonTapped(sender: AnyObject) {
         print("DM Button: \(controlButton.titleLabel?.text )")
         if(controlButton.titleLabel?.text == "Start") {
-            
+            controlButton.titleLabel?.text = "Pause"
             dowloadAllImages()
-        } else {
-            
+        } else if (controlButton.titleLabel?.text == "Pause"){
+            controlButton.titleLabel?.text = "Start"
             dataTask?.suspend()
         }
     }
@@ -116,10 +116,6 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
     private func dowloadAllImages () {
         if let files = ManagerFiles.sharedInstance.files {
             if files.count > 0 {
-//                For  Debug(download 1 file)
-//                let file = files[0]
-//                startDownloadImages(file)
-                
                 
                 let qualityOfServiceClass = QOS_CLASS_BACKGROUND
                 let backgroundQueue = dispatch_get_global_queue(qualityOfServiceClass, 0)
@@ -129,7 +125,12 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
                     for file in files {
                         self.startDownloadImages(file)
                     }
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.controlButton.titleLabel?.text = "Start"
+                    })
                 })
+                
                 
             } else {
                 let alert = UIAlertController(title: "Not have file to download", message: "Add file first", preferredStyle: .Alert)
@@ -144,7 +145,7 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
     private func startDownloadImages(file: File) {
         for image in file.images {
                 
-            print("\nDM_Start download Image: \(image.urlString)")
+            //print("\nDM_Start download Image: \(image.urlString)")
             ManagerFiles.sharedInstance.activeDownload![image.urlString] = nil
             dataTask = downloadsSession.downloadTaskWithURL(NSURL(string: image.urlString)!)
             

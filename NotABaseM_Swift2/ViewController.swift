@@ -182,7 +182,9 @@ class ViewController: UIViewController, NSURLSessionTaskDelegate {
         }
         return nil
     }
+    
     var totalImages = 0.0
+    
     private func callBack_GetURLOfJsonFile_SetDataToManagerFile(folderOfJSONFile: NSURL?) {
         var totalFiles = 0.0
         if ( isFileExistAtPath(folderOfJSONFile!)) {
@@ -278,7 +280,6 @@ extension ViewController: UITableViewDataSource {
         
         return 1
     }
-    
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         

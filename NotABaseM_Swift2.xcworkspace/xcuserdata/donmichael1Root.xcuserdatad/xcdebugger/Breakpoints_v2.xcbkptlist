@@ -52,7 +52,7 @@
                   moduleName = "NotABaseM_Swift2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/donmichael1Root/Desktop/NotABaseM_Swift2/NotABaseM_Swift2/WalkthroughPageViewController.swift"
-                  timestampString = "495423818.030023"
+                  timestampString = "495446341.590837"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "95"
@@ -67,7 +67,7 @@
                   moduleName = "NotABaseM_Swift2"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/donmichael1Root/Desktop/NotABaseM_Swift2/NotABaseM_Swift2/WalkthroughPageViewController.swift"
-                  timestampString = "495423818.03024"
+                  timestampString = "495446341.591018"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "95"
@@ -90,22 +90,6 @@
             startingLineNumber = "87"
             endingLineNumber = "87"
             landmarkName = "viewControllerAtIndex(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "NotABaseM_Swift2/ViewController.swift"
-            timestampString = "495423703.144194"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "323"
-            endingLineNumber = "323"
-            landmarkName = "URLSessionDidFinishEventsForBackgroundURLSession(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

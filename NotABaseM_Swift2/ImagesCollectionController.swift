@@ -10,7 +10,7 @@
 import UIKit
 import CoreGraphics
 
-class ImagesCollectionController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource{
+class ImagesCollectionController: UIViewController{
     var file = File(name: "")
     var numberOfFile = -1
     override func viewDidLoad() {
@@ -26,12 +26,7 @@ class ImagesCollectionController: UIViewController, UICollectionViewDelegate, UI
         collectionView.reloadData()
     }
     @IBOutlet var collectionView: UICollectionView!
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if file.images.count > 0 {
-            return file.images.count
-        }
-        return 1
-    }
+    
     private func drawPDFfromURL(url: NSURL) -> UIImage? {
         guard let document = CGPDFDocumentCreateWithURL(url) else { return nil }
         guard let page = CGPDFDocumentGetPage(document, 1) else { return nil }
@@ -54,42 +49,48 @@ class ImagesCollectionController: UIViewController, UICollectionViewDelegate, UI
         
         return img
     }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("imagesCell", forIndexPath: indexPath) as! ImageCell
-            //let pdf = UIPDF
-            let imageDownloadURL = file.images[indexPath.row].urlString
-            if let imageDowloadedURL = ManagerFiles.sharedInstance.activeDownload![imageDownloadURL] {
-                let extention = imageDowloadedURL.lastPathComponent?.componentsSeparatedByString(".").last
-                // For debug
-                print("DM_ Format: \(extention)")
-                
-                if extention == "pdf" {
-                    if let _ = drawPDFfromURL(imageDowloadedURL) {
-                        cell.imagesCell.image = drawPDFfromURL(imageDowloadedURL)
-                    }
-                } else {
-                    if let imageData = NSData(contentsOfURL: imageDowloadedURL) {
-                        cell.imagesCell.image = UIImage(data: imageData)
-                    }
-                }
-                
-                
-            }
-        return cell
-    }
-    
+}
+
+extension ImagesCollectionController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if let pageViewController = storyboard?.instantiateViewControllerWithIdentifier("PageViewController") as? PageViewController {
-                pageViewController.indexOffile = indexPath.row
+            pageViewController.indexOffile = indexPath.row
             presentViewController(pageViewController, animated: true, completion: nil)
         }
     }
 }
-
-
-
+extension ImagesCollectionController: UICollectionViewDataSource {
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if file.images.count > 0 {
+            return file.images.count
+        }
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("imagesCell", forIndexPath: indexPath) as! ImageCell
+        //let pdf = UIPDF
+        let imageDownloadURL = file.images[indexPath.row].urlString
+        if let imageDowloadedURL = ManagerFiles.sharedInstance.activeDownload![imageDownloadURL] {
+            let extention = imageDowloadedURL.lastPathComponent?.componentsSeparatedByString(".").last
+            // For debug
+            print("DM_ Format: \(extention)")
+            
+            if extention == "pdf" {
+                if let _ = drawPDFfromURL(imageDowloadedURL) {
+                    cell.imagesCell.image = drawPDFfromURL(imageDowloadedURL)
+                }
+            } else {
+                if let imageData = NSData(contentsOfURL: imageDowloadedURL) {
+                    cell.imagesCell.image = UIImage(data: imageData)
+                }
+            }
+        }
+        return cell
+    }
+}
 
 
 

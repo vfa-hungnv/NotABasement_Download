@@ -17,7 +17,7 @@ class ImagesCollectionController: UIViewController{
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
-        let button = UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: #selector(ImagesCollectionController.reloadCollectionview))
+        let button = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(ImagesCollectionController.reloadCollectionview))
         self.navigationItem.rightBarButtonItem = button
         
     }
@@ -27,22 +27,22 @@ class ImagesCollectionController: UIViewController{
     }
     @IBOutlet var collectionView: UICollectionView!
     
-    private func drawPDFfromURL(url: NSURL) -> UIImage? {
-        guard let document = CGPDFDocumentCreateWithURL(url) else { return nil }
-        guard let page = CGPDFDocumentGetPage(document, 1) else { return nil }
+    fileprivate func drawPDFfromURL(_ url: URL) -> UIImage? {
+        guard let document = CGPDFDocument(url) else { return nil }
+        guard let page = document.page(at: 1) else { return nil }
         
-        let pageRect = CGPDFPageGetBoxRect(page, .MediaBox)
+        let pageRect = page.getBoxRect(.mediaBox)
         
         UIGraphicsBeginImageContextWithOptions(pageRect.size, true, 0)
         let context = UIGraphicsGetCurrentContext()
         
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context,pageRect)
+        context!.setFillColor(UIColor.white.cgColor)
+        context!.fill(pageRect)
         
-        CGContextTranslateCTM(context, 0.0, pageRect.size.height);
-        CGContextScaleCTM(context, 1.0, -1.0);
+        context!.translateBy(x: 0.0, y: pageRect.size.height);
+        context!.scaleBy(x: 1.0, y: -1.0);
         
-        CGContextDrawPDFPage(context, page);
+        context!.drawPDFPage(page);
         let img = UIGraphicsGetImageFromCurrentImageContext()
         
         UIGraphicsEndImageContext()
@@ -52,38 +52,38 @@ class ImagesCollectionController: UIViewController{
 }
 
 extension ImagesCollectionController: UICollectionViewDelegate {
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if let pageViewController = storyboard?.instantiateViewControllerWithIdentifier("PageViewController") as? PageViewController {
-            pageViewController.indexOffile = indexPath.row
-            presentViewController(pageViewController, animated: true, completion: nil)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let pageViewController = storyboard?.instantiateViewController(withIdentifier: "PageViewController") as? PageViewController {
+            pageViewController.indexOffile = (indexPath as NSIndexPath).row
+            present(pageViewController, animated: true, completion: nil)
         }
     }
 }
 extension ImagesCollectionController: UICollectionViewDataSource {
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if file.images.count > 0 {
             return file.images.count
         }
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("imagesCell", forIndexPath: indexPath) as! ImageCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imagesCell", for: indexPath) as! ImageCell
         //let pdf = UIPDF
-        let imageDownloadURL = file.images[indexPath.row].urlString
+        let imageDownloadURL = file.images[(indexPath as NSIndexPath).row].urlString
         if let imageDowloadedURL = ManagerFiles.sharedInstance.activeDownload![imageDownloadURL] {
-            let extention = imageDowloadedURL.lastPathComponent?.componentsSeparatedByString(".").last
+            let extention = imageDowloadedURL.lastPathComponent?.components(separatedBy: ".").last
             // For debug
             print("DM_ Format: \(extention)")
             
             if extention == "pdf" {
-                if let _ = drawPDFfromURL(imageDowloadedURL) {
-                    cell.imagesCell.image = drawPDFfromURL(imageDowloadedURL)
+                if let _ = drawPDFfromURL(imageDowloadedURL as URL) {
+                    cell.imagesCell.image = drawPDFfromURL(imageDowloadedURL as URL)
                 }
             } else {
-                if let imageData = NSData(contentsOfURL: imageDowloadedURL) {
+                if let imageData = try? Data(contentsOf: imageDowloadedURL as URL) {
                     cell.imagesCell.image = UIImage(data: imageData)
                 }
             }

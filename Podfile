@@ -7,6 +7,6 @@ target 'NotABaseM_Swift2' do
 
   # Pods for NotABaseM_Swift2
 
-pod 'Zip', '~> 0.4'
-pod 'SwiftyJSON'
+pod 'SSZipArchive'
+
 end

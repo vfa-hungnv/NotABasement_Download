@@ -17,9 +17,9 @@ class ManagerFiles: ManagerFileAndDownloadProtocol {
     
     static let sharedInstance = ManagerFiles()
     
-    private init() {
+    fileprivate init() {
         files = []
-        activeDownload = [String: NSURL]()
+        activeDownload = [String: URL]()
     }
     
     var numberOfFiles: Int  {
@@ -32,5 +32,5 @@ class ManagerFiles: ManagerFileAndDownloadProtocol {
     }
     
     var files: [File]?
-    var activeDownload: [String: NSURL]?
+    var activeDownload: [String: URL]?
 }

@@ -7,14 +7,14 @@
 //
 
 import Foundation
-import SwiftyJSON
+
 
 
 struct Image {
     var progress: Float = 0.0
     var urlString: String = ""
     // in pair link download and URL afterdownload
-    var urlAndDestinationData = [String: NSURL]()
+    var urlAndDestinationData = [String: URL]()
     
     init (urlStr: String) {
         urlAndDestinationData[urlStr] = nil
@@ -45,10 +45,10 @@ struct File {
 class Download: NSObject {
     var name: String?
     var isDownload = false
-    var url: NSURL?
+    var url: URL?
     var progress: Float = 0.0
-    var downloadTask: NSURLSessionDownloadTask?
-    init(url :NSURL) {
+    var downloadTask: URLSessionDownloadTask?
+    init(url :URL) {
         self.url = url
     }
 }

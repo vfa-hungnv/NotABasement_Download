@@ -17,7 +17,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         dataSource = self
         
         if let startingViewController = viewControllerAtIndex(0) {
-            setViewControllers([startingViewController], direction: .Forward, animated: true, completion: nil)
+            setViewControllers([startingViewController], direction: .forward, animated: true, completion: nil)
         }
     }
     
@@ -28,7 +28,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
     
     // MARK: - UIPageViewControllerDataSource
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         
         var index = (viewController as! ContentViewController).index
         index += 1
@@ -36,7 +36,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         return viewControllerAtIndex(index)
     }
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
         var index = (viewController as! ContentViewController).index
         index -= 1
@@ -44,22 +44,22 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         return viewControllerAtIndex(index)
     }
     
-    private func drawPDFfromURL(url: NSURL) -> UIImage? {
-        guard let document = CGPDFDocumentCreateWithURL(url) else { return nil }
-        guard let page = CGPDFDocumentGetPage(document, 1) else { return nil }
+    fileprivate func drawPDFfromURL(_ url: URL) -> UIImage? {
+        guard let document = CGPDFDocument(url) else { return nil }
+        guard let page = document.page(at: 1) else { return nil }
         
-        let pageRect = CGPDFPageGetBoxRect(page, .MediaBox)
+        let pageRect = page.getBoxRect(.mediaBox)
         
         UIGraphicsBeginImageContextWithOptions(pageRect.size, true, 0)
         let context = UIGraphicsGetCurrentContext()
         
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context,pageRect)
+        context!.setFillColor(UIColor.white.cgColor)
+        context!.fill(pageRect)
         
-        CGContextTranslateCTM(context, 0.0, pageRect.size.height);
-        CGContextScaleCTM(context, 1.0, -1.0);
+        context!.translateBy(x: 0.0, y: pageRect.size.height);
+        context!.scaleBy(x: 1.0, y: -1.0);
         
-        CGContextDrawPDFPage(context, page);
+        context!.drawPDFPage(page);
         let img = UIGraphicsGetImageFromCurrentImageContext()
         
         UIGraphicsEndImageContext()
@@ -67,14 +67,14 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         return img
     }
     
-    func viewControllerAtIndex(index: Int) -> ContentViewController? {
+    func viewControllerAtIndex(_ index: Int) -> ContentViewController? {
         
         if index == NSNotFound || index < 0 {
             return nil
         }
         
         // Create a new view controller and pass suitable data.
-        if let pageContentViewController = storyboard?.instantiateViewControllerWithIdentifier("ContentViewController") as? ContentViewController {
+        if let pageContentViewController = storyboard?.instantiateViewController(withIdentifier: "ContentViewController") as? ContentViewController {
 
             pageContentViewController.index = index
             
@@ -84,15 +84,15 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
                 
                 if let imageDowloadedURL = ManagerFiles.sharedInstance.activeDownload![imageDownloadURL] {
                     print("DM_ donwloaded at: \(imageDowloadedURL)")
-                    let extention = imageDowloadedURL.lastPathComponent?.componentsSeparatedByString(".").last
+                    let extention = imageDowloadedURL.lastPathComponent?.components(separatedBy: ".").last
                     // For debug
                     print("DM_ Format: \(extention)")
                     if extention == "pdf" {
-                        if let _ = drawPDFfromURL(imageDowloadedURL) {
-                            pageContentViewController.imageFile = drawPDFfromURL(imageDowloadedURL)!
+                        if let _ = drawPDFfromURL(imageDowloadedURL as URL) {
+                            pageContentViewController.imageFile = drawPDFfromURL(imageDowloadedURL as URL)!
                         }
                     } else {
-                        if let imageData = NSData(contentsOfURL: imageDowloadedURL) {
+                        if let imageData = try? Data(contentsOf: imageDowloadedURL as URL) {
                             pageContentViewController.imageFile = UIImage(data: imageData)!
                         }
                     }
@@ -106,9 +106,9 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource {
         return nil
     }
     
-    func forward(index:Int) {
+    func forward(_ index:Int) {
         if let nextViewController = viewControllerAtIndex(index + 1) {
-            setViewControllers([nextViewController], direction: .Forward, animated: true, completion: nil)
+            setViewControllers([nextViewController], direction: .forward, animated: true, completion: nil)
         }
     }
 }

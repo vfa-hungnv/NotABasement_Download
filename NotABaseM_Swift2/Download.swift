@@ -13,11 +13,11 @@ class DownloadController: NSObject {
     var name: String?
     var isDownload = false
     
-    var url: NSURL?
+    var url: URL?
     var progress: Float = 0.0
-    var downloadTask: NSURLSessionDownloadTask?
+    var downloadTask: URLSessionDownloadTask?
     
-    init(url :NSURL?) {
+    init(url :URL?) {
         self.url = url
     }
 }

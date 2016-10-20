@@ -24,7 +24,7 @@ class ContentViewController: UIViewController {
         super.viewDidLoad()
         contentImageView.image = imageFile
 
-        forwardButton.setTitle("Skip", forState: UIControlState.Normal)
+        forwardButton.setTitle("Skip", for: UIControlState())
         
     }
     
@@ -34,8 +34,8 @@ class ContentViewController: UIViewController {
     }
     
     
-    @IBAction func nextButtonTapped(sender: UIButton) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func nextButtonTapped(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
 
     }
     

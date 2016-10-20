@@ -11,8 +11,11 @@ import UIKit
 import CoreGraphics
 
 class ImagesCollectionController: UIViewController{
+
     var file = File(name: "")
     var numberOfFile = -1
+    @IBOutlet var collectionView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
@@ -30,6 +33,7 @@ class ImagesCollectionController: UIViewController{
     fileprivate func drawPDFfromURL(_ url: URL) -> UIImage? {
         guard let document = CGPDFDocument(url) else { return nil }
         guard let page = document.page(at: 1) else { return nil }
+
         
         let pageRect = page.getBoxRect(.mediaBox)
         
@@ -52,6 +56,7 @@ class ImagesCollectionController: UIViewController{
 }
 
 extension ImagesCollectionController: UICollectionViewDelegate {
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let pageViewController = storyboard?.instantiateViewController(withIdentifier: "PageViewController") as? PageViewController {
             pageViewController.indexOffile = (indexPath as NSIndexPath).row
@@ -75,7 +80,7 @@ extension ImagesCollectionController: UICollectionViewDataSource {
         let imageDownloadURL = file.images[(indexPath as NSIndexPath).row].urlString
         if let imageDowloadedURL = ManagerFiles.sharedInstance.activeDownload![imageDownloadURL] {
             let extention = imageDowloadedURL.lastPathComponent?.components(separatedBy: ".").last
-            // For debug
+
             print("DM_ Format: \(extention)")
             
             if extention == "pdf" {
@@ -89,6 +94,7 @@ extension ImagesCollectionController: UICollectionViewDataSource {
             }
         }
         return cell
+
     }
 }
 
